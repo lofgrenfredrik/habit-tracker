@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -11,8 +11,7 @@ import {
   Title,
   Tooltip,
   Legend,
-  ArcElement,
-  ChartData
+  ArcElement
 } from 'chart.js';
 import { Line, Bar, Pie } from 'react-chartjs-2';
 import { format, parseISO, startOfWeek, endOfWeek, eachDayOfInterval, isSameDay } from 'date-fns';
@@ -110,7 +109,7 @@ export default function ActivityStatistics({ activities }: ActivityStatisticsPro
 
       return {
         date,
-        dateString: format(date, 'MMM dd'),
+        dateString: format(date, selectedTimeframe === 'week' ? 'EEE' : 'MM/dd'),
         coldPlungeMinutes,
         meditationMinutes,
         totalMinutes: coldPlungeMinutes + meditationMinutes
@@ -181,7 +180,10 @@ export default function ActivityStatistics({ activities }: ActivityStatisticsPro
       y: {
         beginAtZero: true,
         ticks: {
-          color: 'rgb(203, 213, 225)' // slate-300
+          color: 'rgb(203, 213, 225)', // slate-300
+          font: {
+            size: 10
+          }
         },
         grid: {
           color: 'rgba(71, 85, 105, 0.2)' // slate-600 with low opacity
@@ -189,7 +191,12 @@ export default function ActivityStatistics({ activities }: ActivityStatisticsPro
       },
       x: {
         ticks: {
-          color: 'rgb(203, 213, 225)' // slate-300
+          color: 'rgb(203, 213, 225)', // slate-300
+          font: {
+            size: 10
+          },
+          maxRotation: 45,
+          minRotation: 45
         },
         grid: {
           color: 'rgba(71, 85, 105, 0.2)' // slate-600 with low opacity
@@ -198,7 +205,13 @@ export default function ActivityStatistics({ activities }: ActivityStatisticsPro
     },
     plugins: {
       legend: {
+        position: 'top' as const,
         labels: {
+          boxWidth: 12,
+          padding: 10,
+          font: {
+            size: 11
+          },
           color: 'rgb(203, 213, 225)' // slate-300
         }
       },
@@ -206,6 +219,13 @@ export default function ActivityStatistics({ activities }: ActivityStatisticsPro
         backgroundColor: 'rgba(15, 23, 42, 0.8)', // slate-900 with opacity
         titleColor: 'rgb(241, 245, 249)', // slate-100
         bodyColor: 'rgb(241, 245, 249)', // slate-100
+        bodyFont: {
+          size: 12
+        },
+        titleFont: {
+          size: 12
+        },
+        padding: 8,
         borderColor: 'rgb(51, 65, 85)', // slate-700
         borderWidth: 1
       }
@@ -219,6 +239,11 @@ export default function ActivityStatistics({ activities }: ActivityStatisticsPro
       legend: {
         position: 'top' as const,
         labels: {
+          boxWidth: 12,
+          padding: 10,
+          font: {
+            size: 11
+          },
           color: 'rgb(203, 213, 225)' // slate-300
         }
       },
@@ -226,6 +251,13 @@ export default function ActivityStatistics({ activities }: ActivityStatisticsPro
         backgroundColor: 'rgba(15, 23, 42, 0.8)', // slate-900 with opacity
         titleColor: 'rgb(241, 245, 249)', // slate-100
         bodyColor: 'rgb(241, 245, 249)', // slate-100
+        bodyFont: {
+          size: 12
+        },
+        titleFont: {
+          size: 12
+        },
+        padding: 8,
         borderColor: 'rgb(51, 65, 85)', // slate-700
         borderWidth: 1
       }
@@ -233,69 +265,69 @@ export default function ActivityStatistics({ activities }: ActivityStatisticsPro
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-4 md:space-y-8">
       {/* Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="bg-blue-600 rounded-lg p-6 shadow-lg">
-          <p className="text-sm text-blue-100 uppercase tracking-wider">Cold Plunge</p>
-          <h3 className="text-3xl font-bold text-white mt-2">{totalColdPlungeDuration} mins</h3>
-          <p className="text-blue-200 mt-1">Total Duration</p>
-          <p className="text-sm text-blue-200 mt-3">
-            {coldPlungeActivities.length} sessions recorded
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
+        <div className="bg-blue-600 rounded-lg p-3 md:p-6 shadow-lg">
+          <p className="text-xs md:text-sm text-blue-100 uppercase tracking-wider">Cold Plunge</p>
+          <h3 className="text-xl md:text-3xl font-bold text-white mt-1 md:mt-2">{totalColdPlungeDuration} mins</h3>
+          <p className="text-xs md:text-sm text-blue-200 mt-1">Total Duration</p>
+          <p className="text-xs md:text-sm text-blue-200 mt-1 md:mt-3">
+            {coldPlungeActivities.length} sessions
           </p>
         </div>
 
-        <div className="bg-purple-600 rounded-lg p-6 shadow-lg">
-          <p className="text-sm text-purple-100 uppercase tracking-wider">Meditation</p>
-          <h3 className="text-3xl font-bold text-white mt-2">{totalMeditationDuration} mins</h3>
-          <p className="text-purple-200 mt-1">Total Duration</p>
-          <p className="text-sm text-purple-200 mt-3">
-            {meditationActivities.length} sessions recorded
+        <div className="bg-purple-600 rounded-lg p-3 md:p-6 shadow-lg">
+          <p className="text-xs md:text-sm text-purple-100 uppercase tracking-wider">Meditation</p>
+          <h3 className="text-xl md:text-3xl font-bold text-white mt-1 md:mt-2">{totalMeditationDuration} mins</h3>
+          <p className="text-xs md:text-sm text-purple-200 mt-1">Total Duration</p>
+          <p className="text-xs md:text-sm text-purple-200 mt-1 md:mt-3">
+            {meditationActivities.length} sessions
           </p>
         </div>
 
-        <div className="bg-green-600 rounded-lg p-6 shadow-lg">
-          <p className="text-sm text-green-100 uppercase tracking-wider">Combined Total</p>
-          <h3 className="text-3xl font-bold text-white mt-2">{totalDuration} mins</h3>
-          <p className="text-green-200 mt-1">All Activities</p>
-          <p className="text-sm text-green-200 mt-3">
+        <div className="col-span-2 md:col-span-1 bg-green-600 rounded-lg p-3 md:p-6 shadow-lg">
+          <p className="text-xs md:text-sm text-green-100 uppercase tracking-wider">Combined Total</p>
+          <h3 className="text-xl md:text-3xl font-bold text-white mt-1 md:mt-2">{totalDuration} mins</h3>
+          <p className="text-xs md:text-sm text-green-200 mt-1">All Activities</p>
+          <p className="text-xs md:text-sm text-green-200 mt-1 md:mt-3">
             {activities.length} total sessions
           </p>
         </div>
       </div>
 
       {/* Time Filter */}
-      <div className="bg-slate-800 rounded-lg p-4 shadow-lg">
-        <div className="flex justify-center space-x-4">
+      <div className="bg-slate-800 rounded-lg p-3 md:p-4 shadow-lg">
+        <div className="flex justify-center space-x-2 md:space-x-4">
           <button
             onClick={() => setSelectedTimeframe('week')}
-            className={`px-4 py-2 rounded-md transition-colors ${
+            className={`px-2 md:px-4 py-1 md:py-2 text-xs md:text-base rounded-md transition-colors ${
               selectedTimeframe === 'week'
                 ? 'bg-blue-600 text-white'
-                : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+                : 'bg-slate-700 text-slate-300 hover:bg-slate-600 active:bg-slate-600'
             }`}
           >
-            This Week
+            Week
           </button>
           <button
             onClick={() => setSelectedTimeframe('month')}
-            className={`px-4 py-2 rounded-md transition-colors ${
+            className={`px-2 md:px-4 py-1 md:py-2 text-xs md:text-base rounded-md transition-colors ${
               selectedTimeframe === 'month'
                 ? 'bg-blue-600 text-white'
-                : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+                : 'bg-slate-700 text-slate-300 hover:bg-slate-600 active:bg-slate-600'
             }`}
           >
-            This Month
+            Month
           </button>
           <button
             onClick={() => setSelectedTimeframe('all')}
-            className={`px-4 py-2 rounded-md transition-colors ${
+            className={`px-2 md:px-4 py-1 md:py-2 text-xs md:text-base rounded-md transition-colors ${
               selectedTimeframe === 'all'
                 ? 'bg-blue-600 text-white'
-                : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+                : 'bg-slate-700 text-slate-300 hover:bg-slate-600 active:bg-slate-600'
             }`}
           >
-            All Time
+            All
           </button>
         </div>
       </div>
@@ -306,27 +338,27 @@ export default function ActivityStatistics({ activities }: ActivityStatisticsPro
         </div>
       ) : (
         <>
+          {/* Pie Chart - Activity Distribution (moved to top for mobile) */}
+          <div className="bg-slate-800 rounded-lg p-4 md:p-6 shadow-lg">
+            <h3 className="text-lg md:text-xl font-medium text-white mb-2 md:mb-4">Activity Distribution</h3>
+            <div className="h-60 md:h-80">
+              <Pie data={pieChartData} options={pieChartOptions} />
+            </div>
+          </div>
+
           {/* Line Chart - Activity Duration Over Time */}
-          <div className="bg-slate-800 rounded-lg p-6 shadow-lg">
-            <h3 className="text-xl font-medium text-white mb-4">Activity Duration Over Time</h3>
-            <div className="h-80">
+          <div className="bg-slate-800 rounded-lg p-4 md:p-6 shadow-lg">
+            <h3 className="text-lg md:text-xl font-medium text-white mb-2 md:mb-4">Activity Duration</h3>
+            <div className="h-60 md:h-80">
               <Line data={lineChartData} options={chartOptions} />
             </div>
           </div>
 
           {/* Bar Chart - Daily Total */}
-          <div className="bg-slate-800 rounded-lg p-6 shadow-lg">
-            <h3 className="text-xl font-medium text-white mb-4">Daily Total Minutes</h3>
-            <div className="h-80">
+          <div className="bg-slate-800 rounded-lg p-4 md:p-6 shadow-lg">
+            <h3 className="text-lg md:text-xl font-medium text-white mb-2 md:mb-4">Daily Total Minutes</h3>
+            <div className="h-60 md:h-80">
               <Bar data={barChartData} options={chartOptions} />
-            </div>
-          </div>
-
-          {/* Pie Chart - Activity Distribution */}
-          <div className="bg-slate-800 rounded-lg p-6 shadow-lg">
-            <h3 className="text-xl font-medium text-white mb-4">Activity Distribution</h3>
-            <div className="h-80">
-              <Pie data={pieChartData} options={pieChartOptions} />
             </div>
           </div>
         </>

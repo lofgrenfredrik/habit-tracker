@@ -32,8 +32,7 @@ export default function ActivityForm() {
   };
 
   return (
-    <div className="bg-slate-800 p-6 rounded-lg shadow-lg mb-6 text-white">
-
+    <div className="bg-slate-800 p-4 md:p-6 rounded-lg shadow-lg mb-4 md:mb-6 text-white">
       {error && (
         <div className="bg-red-500 bg-opacity-20 border border-red-500 text-red-100 p-3 rounded-md mb-4">
           {error}
@@ -51,21 +50,21 @@ export default function ActivityForm() {
           <label className="block text-sm font-medium mb-3">
             Select Activity Type *
           </label>
-          <div className="flex flex-col sm:flex-row gap-3">
+          <div className="grid grid-cols-2 gap-3">
             {/* Cold Plunge button */}
             <button
               type="button"
               onClick={() => setSelectedActivity('Cold Plunge')}
-              className={`flex-1 py-4 px-5 rounded-md border-2 transition-all transform hover:scale-105 ${
+              className={`py-4 px-3 md:px-5 rounded-md border-2 transition-all ${
                 selectedActivity === 'Cold Plunge'
                   ? 'bg-blue-600 border-blue-300 text-white shadow-md shadow-blue-500/50'
-                  : 'bg-blue-500 border-blue-400 text-white hover:bg-blue-600'
+                  : 'bg-blue-500 border-blue-400 text-white active:bg-blue-600 hover:bg-blue-600'
               }`}
               disabled={isSubmitting}
             >
-              <div className="flex items-center justify-center">
-                <span className="text-lg mr-2">❄️</span>
-                <span className="font-bold">Cold Plunge</span>
+              <div className="flex flex-col md:flex-row items-center justify-center">
+                <span className="text-lg mb-1 md:mb-0 md:mr-2">❄️</span>
+                <span className="font-bold text-sm md:text-base">Cold Plunge</span>
               </div>
             </button>
 
@@ -73,16 +72,16 @@ export default function ActivityForm() {
             <button
               type="button"
               onClick={() => setSelectedActivity('Meditation')}
-              className={`flex-1 py-4 px-5 rounded-md border-2 transition-all transform hover:scale-105 ${
+              className={`py-4 px-3 md:px-5 rounded-md border-2 transition-all ${
                 selectedActivity === 'Meditation'
                   ? 'bg-purple-600 border-purple-300 text-white shadow-md shadow-purple-500/50'
-                  : 'bg-purple-500 border-purple-400 text-white hover:bg-purple-600'
+                  : 'bg-purple-500 border-purple-400 text-white active:bg-purple-600 hover:bg-purple-600'
               }`}
               disabled={isSubmitting}
             >
-              <div className="flex items-center justify-center">
-                <span className="text-lg mr-2">🧘</span>
-                <span className="font-bold">Meditation</span>
+              <div className="flex flex-col md:flex-row items-center justify-center">
+                <span className="text-lg mb-1 md:mb-0 md:mr-2">🧘</span>
+                <span className="font-bold text-sm md:text-base">Meditation</span>
               </div>
             </button>
           </div>
@@ -91,7 +90,7 @@ export default function ActivityForm() {
           )}
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+        <div className="grid grid-cols-1 gap-4 mt-6">
           <div className="bg-slate-700 p-3 rounded-md">
             <label htmlFor="date" className="block text-sm font-medium mb-1">
               Date *
@@ -101,7 +100,7 @@ export default function ActivityForm() {
               id="date"
               value={date}
               onChange={(e) => setDate(e.target.value)}
-              className="w-full px-3 py-2 bg-slate-600 border border-slate-500 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 text-white"
+              className="w-full px-3 py-3 bg-slate-600 border border-slate-500 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 text-white text-base"
               required
               disabled={isSubmitting}
             />
@@ -111,25 +110,43 @@ export default function ActivityForm() {
             <label htmlFor="duration" className="block text-sm font-medium mb-1">
               Duration (minutes) *
             </label>
-            <input
-              type="number"
-              id="duration"
-              value={duration}
-              min="1"
-              onChange={(e) => setDuration(parseInt(e.target.value) || 0)}
-              className="w-full px-3 py-2 bg-slate-600 border border-slate-500 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 text-white"
-              required
-              disabled={isSubmitting}
-            />
+            <div className="flex items-center">
+              <button
+                type="button"
+                onClick={() => setDuration(Math.max(1, duration - 5))}
+                className="bg-slate-600 text-white px-4 py-3 rounded-l-md border-r border-slate-500"
+                disabled={isSubmitting || duration <= 1}
+              >
+                -
+              </button>
+              <input
+                type="number"
+                id="duration"
+                value={duration}
+                min="1"
+                onChange={(e) => setDuration(parseInt(e.target.value) || 0)}
+                className="w-full px-3 py-3 bg-slate-600 border-none text-center focus:outline-none focus:ring-2 focus:ring-blue-400 text-white text-base"
+                required
+                disabled={isSubmitting}
+              />
+              <button
+                type="button"
+                onClick={() => setDuration(duration + 5)}
+                className="bg-slate-600 text-white px-4 py-3 rounded-r-md border-l border-slate-500"
+                disabled={isSubmitting}
+              >
+                +
+              </button>
+            </div>
           </div>
         </div>
 
         <button
           type="submit"
           disabled={!selectedActivity || isSubmitting}
-          className={`w-full py-3 px-4 rounded-md transition duration-300 text-lg mt-4 ${
+          className={`w-full mt-6 py-4 px-4 rounded-md transition duration-300 text-lg ${
             selectedActivity && !isSubmitting
-              ? 'bg-green-600 hover:bg-green-700 text-white font-bold shadow-md shadow-green-500/40'
+              ? 'bg-green-600 active:bg-green-700 hover:bg-green-700 text-white font-bold shadow-md shadow-green-500/40'
               : 'bg-gray-600 text-gray-400 cursor-not-allowed'
           }`}
         >
