@@ -7,8 +7,7 @@ export default function Home() {
     <div className="min-h-screen bg-slate-900">
       <header className="bg-gradient-to-r from-blue-800 to-purple-800 text-white py-8 shadow-lg">
         <div className="container mx-auto px-4">
-          <h1 className="text-3xl font-bold">Activity Tracker</h1>
-          <p className="mt-2 text-blue-100">Track your cold plunges and meditation sessions</p>
+          <h1 className="text-3xl font-bold text-center">Activity Tracker</h1>
         </div>
       </header>
 
