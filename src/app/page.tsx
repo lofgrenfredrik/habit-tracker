@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import ActivityForm from "../components/ActivityForm";
 import ActivityList from "../components/ActivityList";
 
@@ -7,7 +8,15 @@ export default function Home() {
     <div className="min-h-screen bg-slate-900">
       <header className="bg-gradient-to-r from-blue-800 to-purple-800 text-white py-8 shadow-lg">
         <div className="container mx-auto px-4">
-          <h1 className="text-3xl font-bold text-center">Activity Tracker</h1>
+          <div className="flex justify-between items-center">
+            <h1 className="text-3xl font-bold">Activity Tracker</h1>
+            <Link
+              href="/statistics"
+              className="bg-slate-800 hover:bg-slate-700 text-white py-2 px-4 rounded-md transition-colors"
+            >
+              View Statistics
+            </Link>
+          </div>
         </div>
       </header>
 
@@ -18,8 +27,7 @@ export default function Home() {
 
       <footer className="border-t border-slate-700 mt-12 py-6 bg-slate-800 text-slate-400">
         <div className="container mx-auto px-4 text-center text-sm">
-          <p>Activity Tracker - Simple tracking of your activities</p>
-          <p className="mt-2">Data is saved in your browser&apos;s localStorage</p>
+          <p>Prada Activity Tracker</p>
         </div>
       </footer>
     </div>
