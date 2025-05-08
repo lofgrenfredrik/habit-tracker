@@ -63,7 +63,7 @@ export default function ActivityForm() {
               disabled={isSubmitting}
             >
               <div className="flex flex-col md:flex-row items-center justify-center">
-                <span className="text-lg mb-1 md:mb-0 md:mr-2">❄️</span>
+                <span className="text-lg mb-1 md:mb-0 md:mr-2">🥶</span>
                 <span className="font-bold text-sm md:text-base">Cold Plunge</span>
               </div>
             </button>

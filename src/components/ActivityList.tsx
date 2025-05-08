@@ -31,7 +31,7 @@ export default function ActivityList() {
   };
 
   const getActivityIcon = (activityName: string) => {
-    if (activityName === 'Cold Plunge') return '❄️';
+    if (activityName === 'Cold Plunge') return '🥶';
     if (activityName === 'Meditation') return '🧘';
     return '📝';
   };
